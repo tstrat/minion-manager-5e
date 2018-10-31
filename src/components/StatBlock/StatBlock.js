@@ -34,6 +34,7 @@ export default class StatBlock extends Component {
     componentDidMount() {
         axios.get(this.props.url)
         .then( res => {
+            console.log(res.data);
             const { strength, dexterity, constitution, intelligence, wisdom, charisma,
                     strength_save, dexterity_save, constitution_save, intelligence_save, wisdom_save, charisma_save,
                     name, armor_class, hit_dice, hit_points, actions, special_abilities, legendary_actions,
@@ -138,7 +139,6 @@ export default class StatBlock extends Component {
                 <div>
                     <p>Armor Class { ac }</p>
                     <p>Hit Points { hp } { hitDice }</p>
-                    <p>Armor Class { ac }</p>
                     <p>Speed { details.speed }</p>
                 </div>
                 
