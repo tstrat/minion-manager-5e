@@ -1,4 +1,5 @@
 import { capitalize } from 'lodash';
+import axios from 'axios';
 
 export const calcMod = (num) => {
     return Math.floor(num / 2) - 5;
@@ -57,4 +58,85 @@ const crXpChart = {
 }
 export const xpByCR = cr => {
     return crXpChart[cr] + 'XP';
+}
+
+
+/**
+ * A long axios call that grabs the specific stats for a monster and returns their information, grouped into
+ * an easier to manage javascript object.  This is in utils because it will be used by the bestiary view and probably
+ * the encounter view (where actions are important to use).
+ * 
+ * @param {*} url to dnd5eapi specific to a monster stat block 
+ */
+export const getMonsterStats = url => {
+    return axios.get(url)
+        .then( res => {
+            const { strength, dexterity, constitution, intelligence, wisdom, charisma,
+                    strength_save, dexterity_save, constitution_save, intelligence_save, wisdom_save, charisma_save,
+                    name, armor_class, hit_dice, hit_points, actions, special_abilities, legendary_actions,
+                    alignment, challenge_rating, condition_immunities, damage_immunities, damage_resistances, damage_vulnerabilities,
+                    senses, size, speed, type,
+                    acrobatics, animal_handling, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleight_of_hand, stealth, survival } = res.data;
+            
+            const skillsList = createStringList({
+                acrobatics, 
+                animal_handling, 
+                arcana, athletics, 
+                deception, history, 
+                insight, 
+                intimidation, 
+                investigation, 
+                medicine, 
+                nature, 
+                perception, 
+                performance, 
+                persuasion, 
+                religion, 
+                sleight_of_hand, 
+                stealth, 
+                survival 
+            });
+            
+            return {
+                name,
+                stats: { 
+                    strength, 
+                    dexterity, 
+                    constitution, 
+                    intelligence, 
+                    wisdom, 
+                    charisma 
+                },
+                ac: armor_class,
+                hp: hit_points,
+                hitDice: hit_dice,
+                saves: { 
+                    STR: strength_save,
+                    DEX: dexterity_save,
+                    CON: constitution_save,
+                    INT: intelligence_save,
+                    WIS: wisdom_save,
+                    CHA: charisma_save
+                },
+                details: {
+                    alignment,
+                    challengeRating: challenge_rating,
+                    condition_immunities,
+                    damage_immunities,
+                    damage_resistances,
+                    damage_vulnerabilities,
+                    senses,
+                    size,
+                    speed,
+                    type
+                },
+                abilities: {
+                    actions,
+                    legendary_actions,
+                    special_abilities
+                },
+                skills: skillsList,
+            }
+                     
+        });
 }

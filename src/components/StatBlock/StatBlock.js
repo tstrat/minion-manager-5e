@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { modAsString, createStringList, xpByCR } from '../../utils/utils';
+import { getMonsterStats, modAsString, createStringList, xpByCR } from '../../utils/utils';
 
 import './statblock.css';
 
@@ -32,77 +31,8 @@ export default class StatBlock extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.props.url)
-        .then( res => {
-            console.log(res.data);
-            const { strength, dexterity, constitution, intelligence, wisdom, charisma,
-                    strength_save, dexterity_save, constitution_save, intelligence_save, wisdom_save, charisma_save,
-                    name, armor_class, hit_dice, hit_points, actions, special_abilities, legendary_actions,
-                    alignment, challenge_rating, condition_immunities, damage_immunities, damage_resistances, damage_vulnerabilities,
-                    senses, size, speed, type,
-                    acrobatics, animal_handling, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleight_of_hand, stealth, survival } = res.data;
-            
-            const skillsList = createStringList({
-                acrobatics, 
-                animal_handling, 
-                arcana, athletics, 
-                deception, history, 
-                insight, 
-                intimidation, 
-                investigation, 
-                medicine, 
-                nature, 
-                perception, 
-                performance, 
-                persuasion, 
-                religion, 
-                sleight_of_hand, 
-                stealth, 
-                survival 
-            });
-            
-            this.setState({
-                name,
-                stats: { 
-                    strength, 
-                    dexterity, 
-                    constitution, 
-                    intelligence, 
-                    wisdom, 
-                    charisma 
-                },
-                ac: armor_class,
-                hp: hit_points,
-                hitDice: hit_dice,
-                saves: { 
-                    STR: strength_save,
-                    DEX: dexterity_save,
-                    CON: constitution_save,
-                    INT: intelligence_save,
-                    WIS: wisdom_save,
-                    CHA: charisma_save
-                },
-                details: {
-                    alignment,
-                    challengeRating: challenge_rating,
-                    condition_immunities,
-                    damage_immunities,
-                    damage_resistances,
-                    damage_vulnerabilities,
-                    senses,
-                    size,
-                    speed,
-                    type
-                },
-                abilities: {
-                    actions,
-                    legendary_actions,
-                    special_abilities
-                },
-                skills: skillsList,
-                loading: false
-            })
-                     
+        getMonsterStats(this.props.url).then(res => {
+            this.setState({ ...res, loading: false });
         })
     }
 
@@ -115,18 +45,18 @@ export default class StatBlock extends Component {
 
         let special, legendaryActionList;
         if (abilities.special_abilities) {
-            special = abilities.special_abilities.map(sp => {
-                return <p>{sp.name} {sp.desc}</p>
+            special = abilities.special_abilities.map((sp,i) => {
+                return <p key={i}>{sp.name} {sp.desc}</p>
             });
         }
 
-        const actionList = abilities.actions.map(action => {
-            return <p>{action.name}. {action.desc}</p>
+        const actionList = abilities.actions.map((action, i) => {
+            return <p key={i}>{action.name}. {action.desc}</p>
         });
         
         if (abilities.legendary_actions) {
-            legendaryActionList = abilities.legendary_actions.map(action => {
-                return <p>{action.name}. {action.desc}</p>
+            legendaryActionList = abilities.legendary_actions.map((action, i) => {
+                return <p key={i}>{action.name}. {action.desc}</p>
             });
         }
 

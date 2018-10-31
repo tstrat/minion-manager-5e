@@ -15,8 +15,33 @@
   * MonsterList
     * Monster
 * Bestiary          -- view all monsters
+  * StatBlock
 * EncounterList     -- view all encounters
+  * new Encounter form
 * AddMonster
+* AttackDisplay -- To-hit  and damage rolls
+* SavesAndChecks
+
+## Routes
+All routes:
+
+Banner
+
+Individual Routes:
+
+* Home '/'
+    * EncountersList
+* Encounter '/encounter/:id'
+    * Encounter based on id
+        * Monsterlist
+            * Monster
+        * Add Monster Button
+    * AttackDisplay -- hidden until needed
+    * SavesAndChecks -- hidden until needed
+* Bestiary '/bestiary'
+    * Stat block
+    * specific monster '/bestiary/:id'
+* AddMonster '/encounter/:id/add'
 
 ## Server
 

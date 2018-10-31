@@ -22,20 +22,20 @@ export default class Bestiary extends Component {
     }
     render() {
 
-        const monsterList = this.state.monsters.map(m => {
+        const monsterList = this.state.monsters.map((m,i) => {
             if (this.state.selected === m.name){
                 return (
-                    <div>
-                        <h3 onClick={() => this.setState({ selected : '' })}>{m.name}</h3>
-                        <StatBlock url={m.url}/>
+                    <div key={ m.name + i }>
+                        <h3 onClick={ () => this.setState({ selected : '' }) }>{ m.name }</h3>
+                        <StatBlock url={ m.url }/>
                     </div>
                 )
             }
             else {
                 return (
-                    <div>
-                        <div onClick={() => this.setState({ selected: m.name })}>
-                            <h3>{m.name}</h3>
+                    <div key={ m.name + i }>
+                        <div onClick={ () => this.setState({ selected: m.name }) }>
+                            <h3>{ m.name }</h3>
                         </div>
                     </div>
                 )
@@ -43,7 +43,7 @@ export default class Bestiary extends Component {
         })
         return (
             <div className='bestiary'>
-            {monsterList}
+            { monsterList }
             </div>
         );
     }
