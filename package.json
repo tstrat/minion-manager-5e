@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
     "lodash": "^4.17.11",
     "massive": "^5.5.1",
     "react": "^16.6.0",
@@ -26,5 +27,7 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "main": "server/index.js",
+  "proxy": "http://localhost:4000"
 }
