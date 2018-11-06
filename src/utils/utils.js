@@ -138,5 +138,7 @@ export const getMonsterStats = url => {
                 skills: skillsList,
             }
                      
+        }).catch( error => {
+            return { message: error }
         });
 }

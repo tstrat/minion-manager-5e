@@ -1,6 +1,5 @@
 update monsters
 set 
-    name = ${name}
+    name = ${name},
     health = ${health}
-    url = ${url}
-where id = ${id};
+where id = ${id} returning *;

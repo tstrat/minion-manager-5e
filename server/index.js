@@ -15,6 +15,8 @@ app.use(bodyParser.json());
 // Manager Endpoints
 app.post('/api/monsters', managerController.createMonster);
 app.get('/api/encounters/:id', managerController.getMonstersByEncounterId);
+app.patch('/api/monsters', managerController.updateMonster);
+app.delete('/api/monsters/:id', managerController.deleteMonster);
 
 // Authentication Endpoints
 
