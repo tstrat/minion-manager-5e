@@ -40,6 +40,7 @@ export default class StatBlock extends Component {
         if (this.state.loading) {
             return <div>Loading...</div>
         }
+        console.log('Statblock', this.state);
         const { name, hp, ac, hitDice, stats, saves, details, skills, abilities } = this.state;
         const savingThrows = createStringList(saves);
 

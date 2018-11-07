@@ -31,7 +31,6 @@ export default class Encounter extends Component {
                 // } , ...etc
             ],
             addMonster: false,
-            deleteMonster: false,
             attack: false,
             defend: false
         }
@@ -119,7 +118,7 @@ export default class Encounter extends Component {
             .then( res => {
                 // console.log('res.data', res.data);
                 if (res.data.id === last.id) {
-                    console.log("true");
+                    
                     this.fetchEncounterMonsters()
                     this.setState({
                         deleteMonster : false,
@@ -132,10 +131,9 @@ export default class Encounter extends Component {
     }
     render() {
 
-        const { monsters, addMonster, deleteMonster, selected, attack, defend } = this.state;
-        console.log('DeleteMonster', deleteMonster);
-        console.log('selected', selected);
-        // console.log(monsters);
+        const { monsters, addMonster, selected, attack, defend } = this.state;
+        // console.log('DeleteMonster', deleteMonster);
+        // console.log('selected', selected);
         
         const monsterList = monsters.map(monsterGroup => {
             // console.log(monsterGroup);

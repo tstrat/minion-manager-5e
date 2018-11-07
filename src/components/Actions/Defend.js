@@ -42,7 +42,9 @@ export default class Defend extends Component {
         // console.log("STATBLOCKS", this.state.statBlocks);
         return (
             <div>
-                Defend
+                <button>Saving Throw</button>
+                <button>Damage</button>
+                <button>Healing</button>
             </div>
         );
     }
