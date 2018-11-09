@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
 import logo from '../../media/dnd5elogo.png';
+import { media } from '../../utils/mediaQuery';
 
 
 export default class Banner extends Component {
@@ -14,20 +15,20 @@ export default class Banner extends Component {
     toggleShow = () => this.setState({ show: !this.state.show.length ? 'show' : '' });
 
     render() {
-        const { show } = this.state;
-        const showStyle = show.length ? { width: '400px' } : {};
-        const displayNav = show.length ? { display: 'block' } : {};
-        const smallWindow = show.length ? <ListItem className="fas fa-times" onClick={ this.toggleShow } /> : null;
+        // const { show } = this.state;
+        // const showStyle = show.length ? { width: '400px' } : {};
+        // const displayNav = show.length ? { display: 'block' } : {};
+        // const smallWindow = show.length ? <ListItem className="fas fa-times" onClick={ this.toggleShow } /> : null;
         return (
             <Header>
                 <InnerBox>
-                    <Logo src={ logo }/>
+                    <Logo className='fab fa-d-and-d' />
                     <H1>Minion Manager</H1>
                 </InnerBox>
                 <Menu className={ 'fas fa-bars' } onClick={ this.toggleShow }/>
-                <Nav style={ displayNav }>
-                    <List style={ showStyle }>
-                        { smallWindow }
+                <Nav>
+                    <List>
+                        
                         <ListItem>Encounters</ListItem>
                         <ListItem>Bestiary</ListItem>
                         <ListItem>Simple Dice Roller</ListItem>
@@ -59,49 +60,51 @@ const Header = styled.div`
     position: relative;
 `
 
-const Logo = styled.img`
-    max-height: 50px;
+const Logo = styled.i`
+    font-size: 50px;
+    color: #EC2127;
 `
 
 const InnerBox = styled.div`
     margin-left: 20px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 `;
 
 const H1 = styled.h1`
     font-family: fantasy, 'Montserrat', 'Open-sans', sans-serif;
-    /* width: 80%; */
+    white-space: nowrap;
     font-size: 30px;
     text-align: center;
-    margin-left: 2%;
+    margin-left: 20px;
     text-shadow: 2px 2px 5px #fafafa;
 
-    @media screen and ( min-width: 768px ) {
+    ${ media.tablet`
         text-align: left;
-    }
+    `}
 `
 
 const Nav = styled.nav`
-    display:none;
-
-    @media screen and (min-width: 768px ) {
-        min-width: 400px;
-        display: block;
-    }
+    min-width: 400px;
+    display: block;
+    ${ media.phone`
+        display:none;
+    `}
 `;
 
 const Menu = styled.i`
+    display:none;
     font-size: 40px;
     margin-right: 20px;
-    @media screen and (min-width: 768px ) {
-        display:none;
-    }
+    ${ media.phone`
+        display:block;
+    `}
 `;
 
 const List = styled.ul`
     
-    @media screen and (max-width: 767px) {
+    ${ media.phone`
         height: 100%; /* 100% Full-height */
         width: 0; /* 0 width - change this with JavaScript */
         position: fixed; /* Stay in place */
@@ -112,16 +115,15 @@ const List = styled.ul`
         overflow-x: hidden; /* Disable horizontal scroll */
         padding-top: 60px; /* Place content 60px from the top */
         transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-    }
+    `}
     
     
-    @media screen and ( min-width: 768px ) {
+    
         display:flex;
         justify-content: space-around;
         align-items:center;
         position: static;
-        
-    }
+    
 `;
 
 
@@ -131,7 +133,7 @@ const ListItem = styled.li`
     text-decoration: none;
     font-size: 25px;
     color: ${ fontColor };
-    display: block;
+    
     :hover {
         text-decoration: underline;
     }

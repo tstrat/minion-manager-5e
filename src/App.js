@@ -25,9 +25,9 @@ const Container = styled.div`
   margin: 0 auto;
   border: 1px solid #222022;
   width: 100%;
-
+  position:relative;
   @media ( min-width: 481px) {
-    max-width: 1000px;
+    max-width: 1024px;
 
   }
 `;

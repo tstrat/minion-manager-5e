@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { getMonsterStats } from '../../utils/utils';
 import axios from 'axios';
 import AttackRoller from '../Roller/AttackRoller';
+import './attack.css';
+
+import mummy from '../../media/mummy.gif';
+import adventureRun from '../../media/adventureRun.gif';
 
 export default class Attack extends Component {
     constructor() {
@@ -54,10 +58,13 @@ export default class Attack extends Component {
         const { statBlocks, assigned, rolling } = this.state;
         if (!statBlocks.length) {
             return (
-                <div>Loading...</div>
+                <div className='attack'>
+                    <img src={mummy} />
+                    <img src={adventureRun} />
+                    <h3>Loading...</h3>
+                </div>
             )
         }
-        console.log(assigned);
         const actions = statBlocks.map(stat => {
             // console.log(stat);
             const actionList = [];

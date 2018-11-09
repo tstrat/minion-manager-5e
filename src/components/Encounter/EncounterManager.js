@@ -15,9 +15,7 @@ export default class EncounterManager extends Component {
         const { encounterId } = this.state;
         return (
             <div>
-                <div>
-                    <h1>Encounter 1</h1>
-                </div>
+                <h1>Encounter 1</h1>
                 <Encounter id={ encounterId } />
             </div>
         );

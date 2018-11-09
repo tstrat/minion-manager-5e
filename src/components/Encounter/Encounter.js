@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
+import styled from 'styled-components';
+import { media } from '../../utils/mediaQuery';
+import addButton from '../../media/addButton.png';
+
+import Monster from './Monster';
 import AddMonster from '../AddMonster/AddMonster';
 import Checkbox from '../Checkbox/Checkbox';
 import Attack from '../Actions/Attack';
@@ -136,50 +142,71 @@ export default class Encounter extends Component {
         // console.log('selected', selected);
         
         const monsterList = monsters.map(monsterGroup => {
-            // console.log(monsterGroup);
-            let returnVal = [];
-            for ( let type in monsterGroup ) {
-                const mlist = monsterGroup[type].map((m,i) => {
-                    return (
-                        <div key={type+i} className='monster'>
-                            <h3>{ m.name }</h3>
-                            <div className='hp'>{ m.hp }</div>
-                            <div className='select-monster'>
-                                <Checkbox checked={false} onChange={e => this.select(e.target.checked, m)} />
-                                {/* <input className='checkbox' type='checkbox' onChange={e => this.select(e.target.checked, m)} /> */}
-                            </div>
-                        </div>
-                    )
-                })
+            const groupName = Object.keys(monsterGroup)[0];
 
-                returnVal.push(
-                    <div key={type} className='monster-group'>
-                        <h1>{ type }</h1>
-                        { mlist }
-                    </div>
-                )
-            }
-
-            return returnVal;
+            return <Monster key={groupName} monsterGroup={{ name:groupName, list:monsterGroup[groupName] }} />;
         })
 
 
         return (
             
-            <div className="encounter">
-                { selected.length 
-                    ? 
-                        <div>
-                            <button onClick={()=> this.setState({ attack: !attack, defend: false })}>Attack</button>
-                            <button onClick={()=> this.setState({ attack: false, defend: !defend })}>Defend</button>
-                            <button onClick={ this.deleteAll }>Delete Selected Monsters</button>
-                        </div>
-                    : null }
+            <EncounterContainer>
+                
                 { addMonster ? <AddMonster encounterId={ this.props.id } updateMonsterList={ this.updateMonsterList }/> : null }
                 { monsterList }
-                <button onClick={ () => this.setState({ addMonster: true})}>AddMonster</button>
+                <AddButton src={addButton} onClick={ () => this.setState({ addMonster: true})} />
+                { selected.length 
+                    ? 
+                        <EncounterActions>
+                            <ActionButton color='#EC2127' onClick={()=> this.setState({ attack: !attack, defend: false })}>Attack</ActionButton>
+                            <ActionButton color='#03AC13' onClick={()=> this.setState({ attack: false, defend: !defend })}>Defend</ActionButton>
+                            {/* <ActionButton color='black' text='white' onClick={ this.deleteAll }>Delete Selected Monsters</ActionButton> */}
+                        </EncounterActions>
+                    : null }
                 { attack ? <Attack selected={ selected }/> : defend ? <Defend selected={ selected }/> : null }
-            </div>
+            </EncounterContainer>
         );
     }
 }
+
+const actionSize = '50px';
+
+const EncounterContainer = styled.div`
+    width: 96%;
+    position: relative;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    
+    padding: 2%;
+`;
+const EncounterActions = styled.div`
+    width: 267px;
+    height: 70px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #222022;
+    position: sticky;
+    bottom: 20px;
+`;
+
+const AddButton = styled.img`
+    max-height: 70px;
+    position: sticky;
+    bottom: 20px;
+    align-self: flex-end;
+`;
+
+const ActionButton = styled.button`
+    background-color: ${props => props.color};
+    color: ${ props => props.text || '#EFEDEF'};
+    height: ${actionSize};
+    font-size: 22px;
+    width: 120px;
+    padding: 0 10px;
+    border:0;
+    
+    
+`;
