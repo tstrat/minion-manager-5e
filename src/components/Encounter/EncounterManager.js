@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
 import Encounter from './Encounter';
+import styled from 'styled-components';
 
 
 export default class EncounterManager extends Component {
@@ -14,10 +15,15 @@ export default class EncounterManager extends Component {
     render() {
         const { encounterId } = this.state;
         return (
-            <div>
+            <Container>
                 <h1>Encounter 1</h1>
                 <Encounter id={ encounterId } />
-            </div>
+            </Container>
         );
     }
 }
+
+
+const Container = styled.div`
+    width: 100%;
+`;

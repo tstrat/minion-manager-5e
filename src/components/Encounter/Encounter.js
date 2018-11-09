@@ -143,8 +143,8 @@ export default class Encounter extends Component {
         
         const monsterList = monsters.map(monsterGroup => {
             const groupName = Object.keys(monsterGroup)[0];
-
-            return <Monster key={groupName} monsterGroup={{ name:groupName, list:monsterGroup[groupName] }} />;
+            console.log(monsterGroup);
+            return <Monster key={groupName} monsterGroup={{ name:groupName, list:monsterGroup[groupName] }} selectFn={this.select} />;
         })
 
 
@@ -172,7 +172,7 @@ export default class Encounter extends Component {
 const actionSize = '50px';
 
 const EncounterContainer = styled.div`
-    width: 96%;
+    width: 100%;
     position: relative;
     display:flex;
     flex-direction: column;
