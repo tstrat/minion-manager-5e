@@ -10,7 +10,7 @@ require('dotenv').config();
 const app = express();
 massive(process.env.CONNECTION_STRING).then(db => app.set('db', db));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../../build')));
+app.use(express.static(`${__dirname}/../build`));
 
 // Manager Endpoints
 app.post('/api/monsters', managerController.createMonster);
