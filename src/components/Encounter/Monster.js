@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
 import armor from '../../media/armor.png';
+import Checkbox from '../Checkbox/Checkbox';
 class Monster extends Component {
     constructor(props) {
         super(props);
@@ -11,12 +12,16 @@ class Monster extends Component {
         }
     }
     
+    select = () => {
+        const checked = !this.state.check;
+        this.setState({
+            check: checked
+        })
+    }
 
     render() {
         const mg = this.props.monsterGroup;
-        console.log(mg);
-        const { expanded } = this.state;
-        console.log(`${mg.name} Expanded`, expanded);
+        const { expanded, check } = this.state;
         const mlist = 
             mg.list.map( (m, i) =>
                 <MonsterDiv key={m + i}>
@@ -24,7 +29,7 @@ class Monster extends Component {
                         { m.name }
                     </MonsterName>
                     <Hp>{ m.health }</Hp>
-                    <SelectBox>Div</SelectBox>
+                    <Checkbox selectFn={this.props.selectFn} monster={m}/>
                 </MonsterDiv>
             )
 
@@ -78,18 +83,6 @@ const MonsterGroup = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    :hover {
-        height: 60px;
-    }
-`;
-
-const slideIn = keyframes`
-    from {
-        height: 0px;
-    }
-    to {
-        height: fit-content;
-    }
 `;
 
 const CollapseContainer = styled.div`
@@ -101,31 +94,13 @@ const CollapseContainer = styled.div`
     &.show {   
         max-height:  ${ props => `${(props.children.length + 1) * listHeight}px` };
         /*${ props => `${props.children.length * listHeight}px` }; */
-        /* animation: ${slideIn} 0.2s linear 0s 1 forwards; */
     }
 
     &.hide {
         max-height: 0px;
-        
     }
 `;
 
-const MonsterDiv = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid red;
-    
-`;
-
-
-const MonsterName = styled.h3`
-    height: 50px;
-    line-height: 50px;
-`;
-
-const Hp = styled.div`
-`;
 const Armor = styled.div`
     /* margin-left: auto; */
     background-image: url(${props => props.img});
@@ -136,7 +111,7 @@ const Armor = styled.div`
     line-height: ${`${listHeight}px`};
     text-align: center;
     
-`;
+    `;
 const Expand = styled.div`
     /* margin-left: auto; */
     width: 0; 
@@ -150,21 +125,13 @@ const Expand = styled.div`
     transition: transform .5s;
     &.arrow-up {
         transform: rotate(45deg) scale(-1,1);
-        /* border-left: 15px solid transparent;
-        border-right: 15px solid transparent;
-        
-        border-bottom: 15px solid black; */
     }
     &.arrow-down {
         transform: rotate(135deg);
-        /* border-left: 15px solid transparent;
-        border-right: 15px solid transparent;
-        
-        border-top: 15px solid black; */
     } 
-
     
-`;
+    
+    `;
 const SelectBox = styled.div`
 
 `;
@@ -177,3 +144,26 @@ const H1 = styled.h1`
     flex-grow: 2;
 `;
 
+
+const MonsterDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+
+    
+    
+`;
+
+
+const MonsterName = styled.h3`
+    height: 50px;
+    line-height: 50px;
+    margin-right: auto;
+    margin-left: 10px;
+`;
+
+const Hp = styled.div`
+    margin-left: auto;
+    margin-right: 10px;
+`;

@@ -98,8 +98,6 @@ export default class Encounter extends Component {
     }
     
     select = (checked, monster) => {
-        // console.log('checkbox', checked);
-        // console.log('checkedMonster', monster);
         const tmp = this.state.selected;
         
         if ( checked ) {
@@ -122,7 +120,6 @@ export default class Encounter extends Component {
             const nextMonster = selected.pop();
             axios.delete(`api/monsters/${ nextMonster.id }`)
             .then( res => {
-                // console.log('res.data', res.data);
                 if (res.data.id === last.id) {
                     
                     this.fetchEncounterMonsters()
@@ -139,11 +136,10 @@ export default class Encounter extends Component {
 
         const { monsters, addMonster, selected, attack, defend } = this.state;
         // console.log('DeleteMonster', deleteMonster);
-        // console.log('selected', selected);
+        console.log('selected', selected);
         
         const monsterList = monsters.map(monsterGroup => {
             const groupName = Object.keys(monsterGroup)[0];
-            console.log(monsterGroup);
             return <Monster key={groupName} monsterGroup={{ name:groupName, list:monsterGroup[groupName] }} selectFn={this.select} />;
         })
 
@@ -152,7 +148,7 @@ export default class Encounter extends Component {
             
             <EncounterContainer>
                 
-                { addMonster ? <AddMonster encounterId={ this.props.id } updateMonsterList={ this.updateMonsterList }/> : null }
+                {/* { addMonster ? <AddMonster encounterId={ this.props.id } updateMonsterList={ this.updateMonsterList }/> : null } */}
                 { monsterList }
                 <AddButton src={addButton} onClick={ () => this.setState({ addMonster: true})} />
                 { selected.length 
