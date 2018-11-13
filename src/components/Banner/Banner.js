@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { media } from '../../utils/mediaQuery';
 
-
 export default class Banner extends Component {
     constructor() {
         super();
@@ -22,7 +21,7 @@ export default class Banner extends Component {
             <Header>
                 <InnerBox>
                     <Logo className='fab fa-d-and-d' />
-                    <H1>Minion Manager</H1>
+                    <H1 className={navigator.platform.indexOf('Win') > -1 ? 'win': null}>Minion Manager</H1>
                 </InnerBox>
                 <Menu className={ 'fas fa-bars' } onClick={ this.toggleShow }/>
                 <Nav>
@@ -82,6 +81,10 @@ const H1 = styled.h1`
     ${ media.tablet`
         text-align: left;
     `}
+    &.win {
+        font-family: 'Montserrat', 'Open-sans', sans-serif;
+
+    }
 `
 
 const Nav = styled.nav`
