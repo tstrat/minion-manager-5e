@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import './App.css';
+import { media } from './utils/mediaQuery';
 
 import Bestiary from './components/Bestiary/Bestiary';
 import EncounterManager from './components/Encounter/EncounterManager';
@@ -26,8 +27,8 @@ const Container = styled.div`
   border: 1px solid #222022;
   width: 100%;
   position:relative;
-  @media ( min-width: 481px) {
+  ${media.invertPhone`
     max-width: 1024px;
-
-  }
+  `};
+  
 `;

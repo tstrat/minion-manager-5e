@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import armor from '../../media/armor.png';
 import Checkbox from '../Checkbox/Checkbox';
+
 class Monster extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             expanded: false,
-            check: false
         }
     }
     
@@ -21,7 +21,7 @@ class Monster extends Component {
 
     render() {
         const mg = this.props.monsterGroup;
-        const { expanded, check } = this.state;
+        const { expanded } = this.state;
         const mlist = 
             mg.list.map( (m, i) =>
                 <MonsterDiv key={m + i}>
@@ -47,27 +47,6 @@ class Monster extends Component {
         );
     }
 };
-
-// const mlist = monsterGroup[type].map((m,i) => {
-//     return (
-//         <div key={type+i} className='monster'>
-//             <h3>{ m.name }</h3>
-//             <div className='hp'>{ m.hp }</div>
-//             <div className='select-monster'>
-//                 <Checkbox checked={false} onChange={e => this.select(e.target.checked, m)} />
-//                 {/* <input className='checkbox' type='checkbox' onChange={e => this.select(e.target.checked, m)} /> */}
-//             </div>
-//         </div>
-//     )
-// })
-
-// returnVal.push(
-//     <div key={type} className='monster-group'>
-//         <h1>{ type }</h1>
-//         { mlist }
-//     </div>
-// )
-
 
 export default Monster;
 
@@ -110,8 +89,8 @@ const Armor = styled.div`
     width: ${`${listHeight}px`};
     line-height: ${`${listHeight}px`};
     text-align: center;
-    
-    `;
+`;
+
 const Expand = styled.div`
     /* margin-left: auto; */
     width: 0; 
@@ -129,11 +108,6 @@ const Expand = styled.div`
     &.arrow-down {
         transform: rotate(135deg);
     } 
-    
-    
-    `;
-const SelectBox = styled.div`
-
 `;
 
 const H1 = styled.h1`
@@ -150,9 +124,6 @@ const MonsterDiv = styled.div`
     justify-content: space-between;
     align-items: center;
     border: 1px solid black;
-
-    
-    
 `;
 
 

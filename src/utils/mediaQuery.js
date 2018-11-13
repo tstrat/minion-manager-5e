@@ -1,16 +1,17 @@
 import { css } from 'styled-components'
 
-const size = {
-    phone: '480px',
-    tablet: '768px',
-    desktop: '992px',
+export const size = {
+    phone: 480,
+    tablet: 768,
+    desktop: 992,
 }
   
 
 export const device = {
-    phone : `(max-width: ${size.phone})`,
-    tablet : `(max-width: ${size.tablet})`,
-    desktop : `(max-width: ${size.desktop})`,
+    phone : `(max-width: ${size.phone}px)`,
+    tablet : `(max-width: ${size.tablet}px)`,
+    desktop : `(max-width: ${size.desktop}px)`,
+    invertPhone: `(min-width: ${size.phone+1}px)`,
 }
 
 
@@ -31,4 +32,9 @@ export const media = {
       ${css(...args)};
     }
   `,
+  invertPhone: (...args) => css`
+  @media ${device.invertPhone} {
+    ${css(...args)};
+  }
+`
 }

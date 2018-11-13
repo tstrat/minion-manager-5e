@@ -6,8 +6,6 @@ import { media } from '../../utils/mediaQuery';
 import addButton from '../../media/addButton.png';
 
 import Monster from './Monster';
-import AddMonster from '../AddMonster/AddMonster';
-import Checkbox from '../Checkbox/Checkbox';
 import Attack from '../Actions/Attack';
 import Defend from '../Actions/Defend';
 
@@ -132,22 +130,26 @@ export default class Encounter extends Component {
         }
         
     }
+
+    clearButtons = () => {
+        this.setState({
+            attack: false,
+            defend: false
+        })
+    }
+
     render() {
 
-        const { monsters, addMonster, selected, attack, defend } = this.state;
-        // console.log('DeleteMonster', deleteMonster);
-        console.log('selected', selected);
+        const { monsters, selected, attack, defend } = this.state;
+        // console.log('selected', selected);
         
         const monsterList = monsters.map(monsterGroup => {
             const groupName = Object.keys(monsterGroup)[0];
             return <Monster key={groupName} monsterGroup={{ name:groupName, list:monsterGroup[groupName] }} selectFn={this.select} />;
         })
 
-
         return (
-            
-            <EncounterContainer>
-                
+            <StyledEncounterContainer>
                 {/* { addMonster ? <AddMonster encounterId={ this.props.id } updateMonsterList={ this.updateMonsterList }/> : null } */}
                 { monsterList }
                 <AddButton src={addButton} onClick={ () => this.setState({ addMonster: true})} />
@@ -159,15 +161,15 @@ export default class Encounter extends Component {
                             {/* <ActionButton color='black' text='white' onClick={ this.deleteAll }>Delete Selected Monsters</ActionButton> */}
                         </EncounterActions>
                     : null }
-                { attack ? <Attack selected={ selected }/> : defend ? <Defend selected={ selected }/> : null }
-            </EncounterContainer>
+                { attack ? <Attack selected={ selected } clearButtons={this.clearButtons} /> : defend ? <Defend selected={ selected }/> : null }
+            </StyledEncounterContainer>
         );
     }
 }
 
 const actionSize = '50px';
 
-const EncounterContainer = styled.div`
+const StyledEncounterContainer = styled.div`
     width: 100%;
     position: relative;
     display:flex;

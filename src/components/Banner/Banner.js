@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
-import logo from '../../media/dnd5elogo.png';
 import { media } from '../../utils/mediaQuery';
 
 

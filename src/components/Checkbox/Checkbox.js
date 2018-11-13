@@ -16,14 +16,14 @@ export default class Checkbox extends Component {
         const { check } = this.state;
         
         return (
-            <StyledCheck onClick={() => this.select(!check)} className={ check }>
-                { check ? <i class="far fa-check-square"></i> : <i class="far fa-square"></i> } 
-            </StyledCheck>
+            <StyledCheckbox onClick={() => this.select(!check)} className={ check }>
+                { check ? <i className="far fa-check-square"></i> : <i className="far fa-square"></i> } 
+            </StyledCheckbox>
         );
     }
 }
 
-const StyledCheck = styled.div`
+const StyledCheckbox = styled.div`
     width: 70px;
     border-left: 1px solid gray;
     display: flex;
