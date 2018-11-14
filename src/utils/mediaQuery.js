@@ -8,10 +8,11 @@ export const size = {
   
 
 export const device = {
-    phone : `(max-width: ${size.phone}px)`,
-    tablet : `(max-width: ${size.tablet}px)`,
+    phone : `(max-width: ${size.phone-1}px)`,
+    tablet : `(max-width: ${size.tablet-1}px)`,
     desktop : `(max-width: ${size.desktop}px)`,
-    invertPhone: `(min-width: ${size.phone+1}px)`,
+    invertPhone: `(min-width: ${size.phone}px)`,
+    
 }
 
 

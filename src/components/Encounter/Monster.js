@@ -93,8 +93,6 @@ const Armor = styled.div`
 
 const Expand = styled.div`
     /* margin-left: auto; */
-    width: 0; 
-    height: 0; 
     display: inline-block;
     width: 15px;
     height: 15px;

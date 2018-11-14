@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { media } from '../../utils/mediaQuery';
 
 export default class Banner extends Component {
@@ -88,25 +88,25 @@ const H1 = styled.h1`
 `
 
 const Nav = styled.nav`
-    min-width: 400px;
     display: block;
-    ${ media.phone`
+    ${ media.tablet`
         display:none;
     `}
 `;
 
 const Menu = styled.i`
     display:none;
-    font-size: 40px;
-    margin-right: 20px;
-    ${ media.phone`
+    
+    ${ media.tablet`
         display:block;
+        font-size: 40px;
+        margin-right: 20px;
     `}
 `;
 
 const List = styled.ul`
     
-    ${ media.phone`
+    ${ media.tablet`
         height: 100%; /* 100% Full-height */
         width: 0; /* 0 width - change this with JavaScript */
         position: fixed; /* Stay in place */
@@ -117,6 +117,7 @@ const List = styled.ul`
         overflow-x: hidden; /* Disable horizontal scroll */
         padding-top: 60px; /* Place content 60px from the top */
         transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+        margin-right:0;
     `}
     
     
@@ -125,15 +126,16 @@ const List = styled.ul`
         justify-content: space-around;
         align-items:center;
         position: static;
+        margin-right: 15px;
     
 `;
 
 
 
 const ListItem = styled.li`
-    padding: 8px 8px 8px 32px;
+    margin-left: 15px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     color: ${ fontColor };
     
     :hover {

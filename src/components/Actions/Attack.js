@@ -16,8 +16,10 @@ export default class Attack extends Component {
         this.state = {
             statBlocks: [],
             assigned: {},
+            count: {},
             rolling: false,
         }
+        this.horizontalBarWidth = React.createRef();
     }
     componentDidMount() {
         this.fetchStatBlocks();
@@ -27,15 +29,23 @@ export default class Attack extends Component {
         const { selected } = this.props;
         // console.log(selected);
         const statBlocks = [];
+        const count = {};
         const urls = []
         for (let i = 0; i < selected.length; i++ ){
+            
             if (!selected[i].url) {
                 continue;
             }
-            if (!urls.includes(selected[i].url))  {   
+            if (!urls.includes(selected[i].url))  {  
                 urls.push(selected[i].url);
             }
-            
+            if (selected[i].monster_name in count) {
+                count[selected[i].monster_name].total += 1;
+            }
+            else {
+                count[selected[i].monster_name] = {};
+                count[selected[i].monster_name].total = 1;
+            }
         }
 
         for (let url of urls) {
@@ -43,17 +53,29 @@ export default class Attack extends Component {
         }
         axios.all([...statBlocks])
         .then( res => {
-            this.setState({ statBlocks: res });
+            this.setState({ statBlocks: res, count });
         })
         
     }
 
     updateActions = (count, key, action) => {
-        // console.log('UpdateActions', action);
         const payload = { [key]: { count: parseInt(count), ...action } };
         const { assigned } = this.state;
+
+        const currCount = Object.assign({}, this.state.count);
+        const curr = currCount[key.split('_').join(' ').split('-')[0]];
+        let it = 0;
+        const combined = { ...assigned, ...payload };
+        for (let i in combined) {
+            if (i.split('-')[0] === key.split('-')[0]) {
+                it += combined[i].count;
+            }
+        }
+        curr.remaining =  (curr.total - it >=0) ? curr.total - it: 0;
+
         this.setState({
-            assigned: { ...assigned, ...payload }
+            assigned: { ...assigned, ...payload },
+            count: currCount
         })
     }
 
@@ -66,7 +88,7 @@ export default class Attack extends Component {
         if (!statBlocks.length) {
             return (
                 <StyledAttackContainer className='attack'>
-                    <img src={loading} />
+                    <img src={loading} alt='loading gif' />
                 </StyledAttackContainer>
             )
         }
@@ -75,18 +97,23 @@ export default class Attack extends Component {
             Mapping all actions into a nice list format
         */
         const actions = statBlocks.map(stat => {
+            const count = this.state.count[stat.name].remaining || this.state.count[stat.name].remaining === 0
+             ? this.state.count[stat.name].remaining : this.state.count[stat.name].total;
             
+
             const actionList = [];
             for (let action of stat.abilities.actions) {
-                actionList.push(<AttackAction stat={stat} action={action} updateActions={this.updateActions}/>)
+                actionList.push(<AttackAction key={action.name} stat={stat} action={action} updateActions={this.updateActions}/>)
             }
             return (
-                <StyledAttackActionsContainer>
-                    <h1>{stat.name}</h1>
-                    <CloseButton onClick={this.props.clearButtons}><i class="fas fa-window-close" /></CloseButton>
+                <StyledAttackActionsContainer key={stat.name}>
+                    <h1 className='monstertype'>{stat.name}</h1>
+                    <h3><p>{count}</p> remaining...</h3>
+                    <HorizontalBar />
+                    
                     <span>Attacks</span>
                     { actionList }
-                    { Object.keys(assigned).length ? <button onClick={() => this.setState({ rolling: true })}>Roll</button> : null }
+                    { Object.keys(assigned).length ? <RollButton onClick={() => this.setState({ rolling: true })}>Roll</RollButton> : null }
                 </StyledAttackActionsContainer>
             );
         })
@@ -94,11 +121,15 @@ export default class Attack extends Component {
                 <>{actions}</>
                 : 
                 <AttackRoller actions={ assigned } />
+
         return (
             <Fade>
+                
                 <StyledAttackContainer>
-                { display }
+                    <CloseButton onClick={this.props.clearButtons}><i className="fas fa-window-close" /></CloseButton>
+                    { display }
                 </StyledAttackContainer>
+                
             </Fade>
         )
     }
@@ -136,12 +167,16 @@ const StyledAttackContainer = styled.div`
 `;
 
 const CloseButton = styled.button`
-    position: absolute;
+    position:sticky;
     top: 10px;
-    right: 10px;
+    left: 100%;
     border:none;
+    width: fit-content;
+    height: fit-content;
+    z-index:5;
     & i {
-        font-size: 20px;
+        font-size: 30px;
+        background: white;
     }
 `;
 const StyledAttackActionsContainer = styled.div`
@@ -151,13 +186,55 @@ const StyledAttackActionsContainer = styled.div`
     align-items: center;
     overflow:scroll;
     & span {
-        margin: 0 auto;
+        margin: 5px auto;
         text-align: center;
         width:100%;
+        font-size: 24px;
+        font-weight: 600;
     }
 
     & > * {
         margin-bottom: 10px;
     }
+
+    & .monstertype {
+        font-size: 25px;
+        align-self: flex-start; 
+        margin-top: 15px;
+        margin-left: 15px;       
+    }
+
+    & h3 {
+        font-size: 18px;
+        align-self: flex-start;
+        margin-left: 40px;
+    }
+    & h3 p {
+        font-weight: 700;
+        color: red;
+        display:inline-block;
+    }
 `;
 
+const HorizontalBar = styled.div`
+    height:0;
+    width: 0;
+    align-self: flex-start;
+    margin-left: 20px; 
+    border-top: 5px solid transparent;
+    border-left: ${`${size.tablet * .8 *.9}px`} solid #EC2127; 
+    border-bottom: 5px solid transparent;
+
+    ${media.phone`
+        border-left: ${`${size.phone * .8 *.9}px`} solid #EC2127; 
+    `}
+`;
+
+const RollButton = styled.button`
+    height: 50px;
+    width: 120px;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    background-color: #03AC13;
+`;

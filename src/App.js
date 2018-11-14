@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import './App.css';
 import { media } from './utils/mediaQuery';
 
-import Bestiary from './components/Bestiary/Bestiary';
+// import Bestiary from './components/Bestiary/Bestiary';
 import EncounterManager from './components/Encounter/EncounterManager';
 import Banner from './components/Banner/Banner';
 
@@ -27,8 +27,9 @@ const Container = styled.div`
   border: 1px solid #222022;
   width: 100%;
   position:relative;
-  ${media.invertPhone`
-    max-width: 1024px;
+  max-width: 1024px;
+  ${media.phone`
+    max-width: 100vw
   `};
   
 `;

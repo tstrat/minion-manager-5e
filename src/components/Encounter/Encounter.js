@@ -76,7 +76,6 @@ export default class Encounter extends Component {
     }
 
     updateMonsterList = (newMonster) => {
-        console.log(newMonster);
         const { monsters } = this.state;
         const monsterName = newMonster.monster_name;
         let added = false;
