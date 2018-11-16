@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { media } from '../../utils/mediaQuery';
+import { Link } from 'react-router-dom';
 
 export default class Banner extends Component {
     constructor() {
@@ -27,7 +28,7 @@ export default class Banner extends Component {
                 <Nav>
                     <List>
                         
-                        <ListItem>Encounters</ListItem>
+                        <ListItem><Link to='/'>Encounters</Link></ListItem>
                         <ListItem>Bestiary</ListItem>
                         <ListItem>Simple Dice Roller</ListItem>
                     </List>
@@ -136,7 +137,11 @@ const ListItem = styled.li`
     margin-left: 15px;
     text-decoration: none;
     font-size: 20px;
-    color: ${ fontColor };
+    
+    & a {
+        color: ${ fontColor };
+        text-decoration: none;
+    }
     
     :hover {
         text-decoration: underline;

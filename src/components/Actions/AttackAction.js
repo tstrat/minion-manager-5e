@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { media } from '../../utils/mediaQuery';
 
 export default class AttackAction extends Component {
     constructor(props) {
@@ -15,7 +14,7 @@ export default class AttackAction extends Component {
     }
 
     updateAction = (count, key, action) => {
-        if (count == ''){
+        if (count === ''){
             count = 0;
         }
         var parsed = parseInt(count, 10);

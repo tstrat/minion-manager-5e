@@ -113,19 +113,21 @@ export default class Attack extends Component {
                     
                     <span>Attacks</span>
                     { actionList }
-                    { Object.keys(assigned).length ? <RollButton onClick={() => this.setState({ rolling: true })}>Roll</RollButton> : null }
                 </StyledAttackActionsContainer>
             );
         })
         const display = ( !rolling ) ? 
-                <>{actions}</>
+                <>
+                {actions}
+                { Object.keys(assigned).length ? <RollButton onClick={() => this.setState({ rolling: true })}>Roll</RollButton> : null }
+                </>
                 : 
                 <AttackRoller actions={ assigned } />
 
         return (
-            <Fade>
+            <Fade onClick={this.props.clearButtons}>
                 
-                <StyledAttackContainer>
+                <StyledAttackContainer onClick={(e) => e.stopPropagation()}>
                     <CloseButton onClick={this.props.clearButtons}><i className="fas fa-window-close" /></CloseButton>
                     { display }
                 </StyledAttackContainer>
@@ -145,18 +147,24 @@ const Fade = styled.div`
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     z-index:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
+
 const StyledAttackContainer = styled.div`
-    position:fixed;
+    /* position:fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
     background-color: white;
     width: 100%;
     max-width: ${`${size.tablet-40}px`};
     height: 70vh;
     overflow:scroll;
     border: 1px solid purple;
+    text-align: center;
+    z-index:2;
     ${ media.phone`
         max-width: 90vw;
     `}
@@ -168,15 +176,16 @@ const StyledAttackContainer = styled.div`
 
 const CloseButton = styled.button`
     position:sticky;
-    top: 10px;
+    top: 0px;
     left: 100%;
     border:none;
     width: fit-content;
     height: fit-content;
     z-index:5;
     & i {
-        font-size: 30px;
+        font-size: 50px;
         background: white;
+        color: #222022;
     }
 `;
 const StyledAttackActionsContainer = styled.div`
@@ -237,4 +246,5 @@ const RollButton = styled.button`
     font-size: 22px;
     font-weight: 700;
     background-color: #03AC13;
+    margin: 10px auto;
 `;

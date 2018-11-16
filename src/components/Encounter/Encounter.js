@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import styled from 'styled-components';
-import { media } from '../../utils/mediaQuery';
 import addButton from '../../media/addButton.png';
 
 import Monster from './Monster';

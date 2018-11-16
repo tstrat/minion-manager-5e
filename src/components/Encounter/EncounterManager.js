@@ -2,27 +2,32 @@ import React, { Component } from 'react';
 // import axios from 'axios';
 import Encounter from './Encounter';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 
-export default class EncounterManager extends Component {
-    constructor() {
-        super();
-        this.state = {
-            encounterId: 1,
-        }
-    }
+class EncounterManager extends Component {
 
     render() {
-        const { encounterId } = this.state;
         return (
             <Container>
-                <h1>Encounter 1</h1>
-                <Encounter id={ encounterId } />
+                <h1>Encounter : {this.props.encounterId}</h1>
+                <Encounter id={this.props.encounterId} />
             </Container>
         );
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        encounterId: state.encounterId,
+    }
+}
+
+export default connect(mapStateToProps)(EncounterManager);
+
+/* 
+    STYLING 
+*/
 
 const Container = styled.div`
     width: 100%;

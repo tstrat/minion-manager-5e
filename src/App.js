@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import { media } from './utils/mediaQuery';
+import { Switch, Route } from 'react-router-dom';
 
-// import Bestiary from './components/Bestiary/Bestiary';
+import Bestiary from './components/Bestiary/Bestiary';
 import EncounterManager from './components/Encounter/EncounterManager';
+import EncounterList from './components/Encounter/EncounterList';
 import Banner from './components/Banner/Banner';
 
 class App extends Component {
@@ -12,8 +14,11 @@ class App extends Component {
     return (
       <Container>
         <Banner />
-        <EncounterManager/>
-        {/* <Bestiary /> */}
+        <Switch>
+          <Route path='/bestiary' component={Bestiary} />
+          <Route path='/encounter' component={EncounterManager} />
+          <Route path='/' component={EncounterList} />
+        </Switch>
       </Container>
     );
   }
@@ -28,6 +33,7 @@ const Container = styled.div`
   width: 100%;
   position:relative;
   max-width: 1024px;
+  min-height: 100vh;
   ${media.phone`
     max-width: 100vw
   `};

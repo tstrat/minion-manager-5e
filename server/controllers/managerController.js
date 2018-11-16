@@ -2,6 +2,18 @@ module.exports = {
     createEncounter : (req, res) => {
         // use req.session.user.id
     },
+    getEncounterList : (req, res) => {
+        const db = req.app.get('db');
+
+        db.get_all_encounters({userId: 1})
+        .then(encounterList => {
+            console.log(encounterList);
+            res.status(200).json(encounterList);
+        }).catch( err => {
+            console.error('Error getting all encounters for user\n Error Message:', error);
+            res.status(500).json({ message: error });
+        })
+    },
     createMonster : (req, res) => {
         const db = req.app.get('db');
 
