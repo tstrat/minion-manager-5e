@@ -3,15 +3,20 @@ import React, { Component } from 'react';
 import Encounter from './Encounter';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 
 class EncounterManager extends Component {
 
     render() {
+        console.log(this.props.encounter);
+        if (!this.props.encounter.id) {
+           return <Redirect to='/'/>
+        }
         return (
             <Container>
-                <h1>Encounter : {this.props.encounterId}</h1>
-                <Encounter id={this.props.encounterId} />
+                <h1>Encounter : {this.props.encounter.name}</h1>
+                <Encounter id={this.props.encounter.id} />
             </Container>
         );
     }
@@ -19,7 +24,7 @@ class EncounterManager extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        encounterId: state.encounterId,
+        encounter: state.encounter,
     }
 }
 

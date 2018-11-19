@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import './App.css';
 import { media } from './utils/mediaQuery';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Bestiary from './components/Bestiary/Bestiary';
 import EncounterManager from './components/Encounter/EncounterManager';
 import EncounterList from './components/Encounter/EncounterList';
 import Banner from './components/Banner/Banner';
+import Login from './components/Login/Login';
 
 class App extends Component {
+
   render() {
     return (
       <Container>
@@ -17,6 +20,7 @@ class App extends Component {
         <Switch>
           <Route path='/bestiary' component={Bestiary} />
           <Route path='/encounter' component={EncounterManager} />
+          <Route path='/login' component={Login} />
           <Route path='/' component={EncounterList} />
         </Switch>
       </Container>
@@ -24,7 +28,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default (App);
 
 const Container = styled.div`
 

@@ -1,15 +1,26 @@
 module.exports = {
     createEncounter : (req, res) => {
         // use req.session.user.id
+        const db = req.app.get('db');
+        const { name } = req.body
+
+        db.create_encounter({ name, userId: req.session.user.id })
+        .then( createdEncounters => {
+            res.status(200).json(createdEncounters[0]);
+        })
+        .catch ( error => {
+            console.error('Error creating encounter for user\n Error Message:', error);
+            res.status(500).json({ message: error });
+        })
+
     },
     getEncounterList : (req, res) => {
         const db = req.app.get('db');
 
-        db.get_all_encounters({userId: 1})
+        db.get_all_encounters({ userId: req.session.user.id })
         .then(encounterList => {
-            console.log(encounterList);
             res.status(200).json(encounterList);
-        }).catch( err => {
+        }).catch( error => {
             console.error('Error getting all encounters for user\n Error Message:', error);
             res.status(500).json({ message: error });
         })
@@ -25,10 +36,8 @@ module.exports = {
             url: url,
             encounterId: parseInt(encounterId)
         }
-        console.log(payload);
         db.create_monster(payload)
         .then( createdMonsters => {
-            console.log(createdMonsters[0]);
             res.status(200).json(createdMonsters[0]);
         })
         .catch( error => {

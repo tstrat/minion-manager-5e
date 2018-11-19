@@ -1,2 +1,2 @@
-insert into users (auth0_id, name, email)
-values (${auth0Id}, ${name}, ${email}) returning *;
+insert into users (auth0_id, name, email, picture)
+values (${auth0_id}, ${name}, ${email}, ${picture}) returning *;

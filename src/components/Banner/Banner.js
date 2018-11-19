@@ -29,7 +29,7 @@ export default class Banner extends Component {
                     <List>
                         
                         <ListItem><Link to='/'>Encounters</Link></ListItem>
-                        <ListItem>Bestiary</ListItem>
+                        <ListItem><Link to='/bestiary'>Bestiary</Link></ListItem>
                         <ListItem>Simple Dice Roller</ListItem>
                     </List>
                 </Nav>
@@ -90,8 +90,13 @@ const H1 = styled.h1`
 
 const Nav = styled.nav`
     display: block;
+    
     ${ media.tablet`
-        display:none;
+        position:fixed;
+        top:0;
+        right:0;
+        width:0;
+        max-width:0;
     `}
 `;
 
