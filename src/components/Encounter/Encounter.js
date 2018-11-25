@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import styled from 'styled-components';
@@ -150,7 +151,7 @@ export default class Encounter extends Component {
             <StyledEncounterContainer>
                 {/* { addMonster ? <AddMonster encounterId={ this.props.id } updateMonsterList={ this.updateMonsterList }/> : null } */}
                 { monsterList }
-                <AddButton src={addButton} onClick={ () => this.setState({ addMonster: true})} />
+                <Link to='/bestiary'><AddButton src={addButton}/></Link>
                 { selected.length 
                     ? 
                         <EncounterActions>

@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { media } from '../../utils/mediaQuery';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../ducks/reducer';
+import axios from 'axios';
 
-export default class Banner extends Component {
+class Banner extends Component {
     constructor() {
         super();
         this.state={
@@ -13,16 +16,19 @@ export default class Banner extends Component {
 
     toggleShow = () => this.setState({ show: !this.state.show.length ? 'show' : '' });
 
+    logout = () => {
+        axios.post('/auth/logout')
+        .then( () => {
+            this.props.logout();
+            this.setState({ show: '' });
+        });
+    }
     render() {
-        // const { show } = this.state;
-        // const showStyle = show.length ? { width: '400px' } : {};
-        // const displayNav = show.length ? { display: 'block' } : {};
-        // const smallWindow = show.length ? <ListItem className="fas fa-times" onClick={ this.toggleShow } /> : null;
         return (
             <Header>
                 <InnerBox>
                     <Logo className='fab fa-d-and-d' />
-                    <H1 className={navigator.platform.indexOf('Win') > -1 ? 'win': null}>Minion Manager</H1>
+                    <H1 className={navigator.platform.indexOf('Mac') > -1 ? null: 'win'}>Minion Manager</H1>
                 </InnerBox>
                 <Menu className={ 'fas fa-bars' } onClick={ this.toggleShow }/>
                 <Nav>
@@ -31,6 +37,13 @@ export default class Banner extends Component {
                         <ListItem><Link to='/'>Encounters</Link></ListItem>
                         <ListItem><Link to='/bestiary'>Bestiary</Link></ListItem>
                         <ListItem>Simple Dice Roller</ListItem>
+                        <ListItem>
+                            { this.props.user.id 
+                                ? 
+                                <button onClick={this.logout}>Logout</button>
+                                : <Link to='/login'><button>Login</button></Link>
+                            }
+                        </ListItem>
                     </List>
                 </Nav>
             </Header>
@@ -38,7 +51,13 @@ export default class Banner extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
 
+export default connect(mapStateToProps, { logout })(Banner);
 /*
     STYLING FOR BANNER
 */

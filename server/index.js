@@ -41,6 +41,9 @@ app.get('/auth/get-session', (req, res) => {
   // console.log(req.session);
   res.status(200).json(req.session.user);
 });
-
+app.post('/auth/logout', (req, res) => {
+  req.session.destroy();
+  res.sendStatus(200);
+});
 const SERVER_PORT = process.env.SERVER_PORT || 4000;
 app.listen(SERVER_PORT, () => console.log(`Running server on local port: ${SERVER_PORT} 🙈 Dont spook the monkey with errors`));

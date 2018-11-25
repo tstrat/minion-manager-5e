@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import './App.css';
 import { media } from './utils/mediaQuery';
 import { Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import Bestiary from './components/Bestiary/Bestiary';
 import EncounterManager from './components/Encounter/EncounterManager';

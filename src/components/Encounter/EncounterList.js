@@ -19,9 +19,6 @@ class EncounterList extends Component {
 
     componentDidMount() {
         this.fetchData();
-        axios.get('/api/encounters').then(res => {
-            this.setState({ encounters: res.data });
-        });
     }
 
     toggleAdd = () => {
@@ -36,11 +33,12 @@ class EncounterList extends Component {
         .then(res => {
             if (res.data) {
                 this.props.updateUser(res.data);
-                this.setState({ loggedIn: true });
                 axios.get('/api/encounters').then(res => {
                     this.setState({ encounters: res.data });
                 });
             }
+        }).catch(err=> {
+            console.log(err.response);
         })
         
     }
@@ -59,12 +57,22 @@ class EncounterList extends Component {
         this.toggleAdd();
     }
 
+    removeEncounter = async (id) => {
+        axios.delete(`/api/encounters/${id}`)
+        .then( () => {
+            const removed = this.state.encounters.slice();
+            const index = removed.findIndex(e => e.id === id);
+            removed.splice(index, 1);
+            this.setState({ encounters: removed });
+        })
+    }
+
     render() {
-        if (! this.state.loggedIn ) {
-            return <div>
-                Please Login:
+        if (! this.props.user.id ) {
+            return <LoginContainer>
+                <h1>You must login to manage personal encounters</h1>
                 <Link to='/login'><button>Login</button></Link>
-            </div>
+            </LoginContainer>
         }
         console.log(this.props);
         const display = this.state.encounters.map((encounter, i) => {
@@ -111,6 +119,27 @@ const EncounterListContainer = styled.div`
     flex-direction:column;
     justify-content:center;
     align-items: center;
+
+`;
+
+const LoginContainer = styled.div`
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+
+    & h1 {
+        font-size: 25px;
+        margin-bottom: 15px;
+    }
+
+    & button {
+        height: 60px;
+        width: 120px;
+        font-size: 20px;
+    }
 
 `;
 
