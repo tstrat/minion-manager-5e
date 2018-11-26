@@ -64,7 +64,7 @@ class Bestiary extends Component {
         const monsterList = viewList.map((m,i) => {
             if (this.state.selected === m.name){
                 return (
-                    <div key={ m.name + i }>
+                    <div key={ m.name + i } className="monster">
                         <h3 onClick={ () => this.setState({ selected : '' }) }>{ m.name }</h3>
                         <StatBlock url={ m.url }/>
                     </div>
@@ -72,7 +72,7 @@ class Bestiary extends Component {
             }
             else {
                 return (
-                    <div key={ m.name + i }>
+                    <div key={ m.name + i } className="monster">
                         <div onClick={ () => this.setState({ selected: m.name }) }>
                             <h3>{ m.name }</h3>
                         </div>
@@ -90,7 +90,6 @@ class Bestiary extends Component {
             : null;
         return (
             <div className='bestiary'>
-                <img className="background" src='https://vignette.wikia.nocookie.net/finalfantasy/images/d/d0/Cleigne-Bestiary-Background-FFXV.png/revision/latest?cb=20180622160158' alt='monsters'/>
                 <div className="header">
                     <input placeholder="Search Bestiary" className="search" value={this.state.input} onChange={e=>this.setState({input: e.target.value})}/>
                     { encounterInput }

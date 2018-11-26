@@ -31,13 +31,13 @@ class Banner extends Component {
                     <H1 className={navigator.platform.indexOf('Mac') > -1 ? null: 'win'}>Minion Manager</H1>
                 </InnerBox>
                 <Menu className={ 'fas fa-bars' } onClick={ this.toggleShow }/>
-                <Nav>
-                    <List>
+                <Nav className={this.state.show ? 'show' : ''}>
+                    <List className={this.state.show ? 'boom' : ''}>
                         
-                        <ListItem><Link to='/'>Encounters</Link></ListItem>
-                        <ListItem><Link to='/bestiary'>Bestiary</Link></ListItem>
-                        <ListItem>Simple Dice Roller</ListItem>
-                        <ListItem>
+                        <ListItem onClick={this.toggleShow}><Link to='/'>Encounters</Link></ListItem>
+                        <ListItem onClick={this.toggleShow}><Link to='/bestiary'>Bestiary</Link></ListItem>
+                        <ListItem className="disabled" onClick={this.toggleShow}>Simple Dice Roller</ListItem>
+                        <ListItem onClick={this.toggleShow}>
                             { this.props.user.id 
                                 ? 
                                 <button onClick={this.logout}>Logout</button>
@@ -112,11 +112,17 @@ const Nav = styled.nav`
     
     ${ media.tablet`
         position:fixed;
-        top:0;
-        right:0;
-        width:0;
-        max-width:0;
+        top:100px;
+        left:0;
+        width:100%;
+        height:0;
+       
+        &.show {
+            height: 100vh;
+        }
     `}
+
+    
 `;
 
 const Menu = styled.i`
@@ -132,30 +138,29 @@ const Menu = styled.i`
 const List = styled.ul`
     
     ${ media.tablet`
-        height: 100%; /* 100% Full-height */
-        width: 0; /* 0 width - change this with JavaScript */
+        height: 0; /* 100% Full-height */
+        width: 100%; /* 0 width - change this with JavaScript */
         position: fixed; /* Stay in place */
         z-index: 1; /* Stay on top */
-        top: 0; /* Stay at the top */
-        right: 0;
+        left: 0;
         background-color: #111; /* Black*/
-        overflow-x: hidden; /* Disable horizontal scroll */
-        padding-top: 60px; /* Place content 60px from the top */
+        overflow-y: hidden; /* Disable horizontal scroll */
+        transform: height;
         transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
         margin-right:0;
+        flex-direction: column;
+        justify-content: flex-start;
+        &.boom {
+            height: 100vw;
+        }
     `}
-    
-    
-    
-        display:flex;
-        justify-content: space-around;
-        align-items:center;
-        position: static;
-        margin-right: 15px;
-    
+
+    display:flex;
+    justify-content: space-around;
+    align-items:center;
+    position: static;
+    margin-right: 15px;
 `;
-
-
 
 const ListItem = styled.li`
     margin-left: 15px;
@@ -169,6 +174,15 @@ const ListItem = styled.li`
     
     :hover {
         text-decoration: underline;
+    }
+
+    ${ media.tablet`
+        margin: 20px 0;
+    `}
+
+    &.disabled{
+        cursor: no-drop;
+        text-decoration: line-through;
     }
 `;
 

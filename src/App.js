@@ -15,6 +15,7 @@ class App extends Component {
   render() {
     return (
       <Container>
+        <Image src='https://triumvene.com/blog/content/images/2018/09/f54890248-1.jpg' alt='dnd phb' />
         <Banner />
         <Switch>
           <Route path='/bestiary' component={Bestiary} />
@@ -30,7 +31,7 @@ class App extends Component {
 export default (App);
 
 const Container = styled.div`
-
+  background-color: white;
   margin: 0 auto;
   border: 1px solid #222022;
   width: 100%;
@@ -41,4 +42,17 @@ const Container = styled.div`
     max-width: 100vw
   `};
   
+`;
+
+const Image = styled.div`
+  background-color: black;
+  background-image: url('https://triumvene.com/blog/content/images/2018/09/f54890248-1.jpg');
+  background-size: cover;
+  background-repeat: none;
+  position:fixed;
+  top:0;
+  left:0;
+  height: 100vh;
+  width: 100vw;
+  z-index:-2;
 `;

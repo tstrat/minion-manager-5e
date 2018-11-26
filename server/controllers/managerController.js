@@ -93,7 +93,7 @@ module.exports = {
         .then(removedMonsters => {
             // console.log("removed", removedMonsters);
             res.status(200).json(removedMonsters[0]);
-        }) .catch ( error => {
+        }).catch ( error => {
             console.error('Error removing monster\n Error Message:', error);
             res.status(500).json({ message: error });
         })
