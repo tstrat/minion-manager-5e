@@ -8,10 +8,13 @@ export default class Checkbox extends Component {
     }
 
     select = (checked) => {
-        this.setState({ check : checked})
         this.props.selectFn(checked, this.props.monster);
+        this.setState({ check: checked })
     } 
 
+    componentWillUnmount() {
+        this.setState({ check: false });
+    }
     render() {
         const { check } = this.state;
         

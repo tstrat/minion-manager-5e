@@ -118,12 +118,11 @@ export default class Encounter extends Component {
             axios.delete(`api/monsters/${ nextMonster.id }`)
             .then( res => {
                 if (res.data.id === last.id) {
-                    
-                    this.fetchEncounterMonsters()
+                    this.fetchEncounterMonsters();
                     this.setState({
                         deleteMonster : false,
                         selected: []
-                    });
+                    }, this.forceUpdate);
                 }
             })
         }
@@ -150,18 +149,20 @@ export default class Encounter extends Component {
         return (
             <StyledEncounterContainer>
                 { this.state.selected.length ? <TrashCan className="fas fa-trash" onClick={this.deleteAll}/> : null }
-                {/* { addMonster ? <AddMonster encounterId={ this.props.id } updateMonsterList={ this.updateMonsterList }/> : null } */}
                 { monsterList }
-                <Link to='/bestiary'><AddButton src={addButton}/></Link>
-                { selected.length 
-                    ? 
-                        <EncounterActions>
-                            <ActionButton color='#EC2127' onClick={()=> this.setState({ attack: !attack, defend: false })}>Attack</ActionButton>
-                            <ActionButton color='#03AC13' onClick={()=> this.setState({ attack: false, defend: !defend })}>Defend</ActionButton>
-                            {/* <ActionButton color='black' text='white' onClick={ this.deleteAll }>Delete Selected Monsters</ActionButton> */}
-                        </EncounterActions>
-                    : null }
-                { attack ? <Attack selected={ selected } clearButtons={this.clearButtons} /> : defend ? <Defend selected={ selected }/> : null }
+                <ControllDiv>
+                    
+                    { selected.length 
+                        ? 
+                            <EncounterActions>
+                                <ActionButton color='#EC2127' onClick={()=> this.setState({ attack: !attack, defend: false })}>Attack</ActionButton>
+                                <ActionButton color='#03AC13' onClick={()=> this.setState({ attack: false, defend: !defend })}>Defend</ActionButton>
+                                {/* <ActionButton color='black' text='white' onClick={ this.deleteAll }>Delete Selected Monsters</ActionButton> */}
+                            </EncounterActions>
+                        : null }
+                    <Link to='/bestiary'><AddButton src={addButton}/></Link>
+                    { attack ? <Attack selected={ selected } clearButtons={this.clearButtons} /> : defend ? <Defend selected={ selected }/> : null }
+                </ControllDiv>
             </StyledEncounterContainer>
         );
     }
@@ -186,8 +187,8 @@ const EncounterActions = styled.div`
     justify-content: space-evenly;
     align-items: center;
     background-color: #222022;
-    position: sticky;
-    bottom: 20px;
+    padding-left: 8px;
+    
 `;
 
 const TrashCan = styled.i`
@@ -195,9 +196,6 @@ const TrashCan = styled.i`
 `;
 const AddButton = styled.img`
     max-height: 70px;
-    position: sticky;
-    bottom: 20px;
-    align-self: flex-end;
 `;
 
 const ActionButton = styled.button`
@@ -206,8 +204,19 @@ const ActionButton = styled.button`
     height: ${actionSize};
     font-size: 22px;
     width: 120px;
-    padding: 0 10px;
     border:0;
-    
-    
+    margin-right: auto;
+`;
+
+const ControllDiv = styled.div`
+    margin-top: 30px;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: sticky;
+    bottom: 20px;
+    & a {
+        margin-left: auto;
+    }
 `;

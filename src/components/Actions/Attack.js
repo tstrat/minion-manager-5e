@@ -162,7 +162,6 @@ const StyledAttackContainer = styled.div`
     max-width: ${`${size.tablet-40}px`};
     height: 70vh;
     overflow:scroll;
-    border: 1px solid purple;
     text-align: center;
     z-index:2;
     ${ media.phone`

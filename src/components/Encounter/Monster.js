@@ -16,12 +16,6 @@ class Monster extends Component {
         }
     }
     
-    select = () => {
-        const checked = !this.state.check;
-        this.setState({
-            check: checked
-        })
-    }
 
     getStyle = (curr, max) => {
         const ratio = curr/max;
@@ -82,7 +76,7 @@ class Monster extends Component {
             </Fade>
         const mlist = 
             mg.list.map( (m, i) =>
-                <MonsterDiv key={m + i}>
+                <MonsterDiv key={m.name + i}>
                     <MonsterName>
                         { m.name }
                         <i className="fas fa-pen-nib" onClick={() => this.setState({ edit: m})}></i>
