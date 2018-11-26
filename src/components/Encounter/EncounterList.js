@@ -58,9 +58,10 @@ class EncounterList extends Component {
 
     removeEncounter = async (id) => {
         axios.delete(`/api/encounters/${id}`)
-        .then( () => {
+        .then( deleted => {
             const removed = this.state.encounters.slice();
             const index = removed.findIndex(e => e.id === id);
+            this.props.updateEncounter({});
             removed.splice(index, 1);
             this.setState({ encounters: removed });
         })
@@ -73,7 +74,6 @@ class EncounterList extends Component {
                 <Link to='/login'><button>Login</button></Link>
             </LoginContainer>
         }
-        console.log(this.props);
         const display = this.state.encounters.map((encounter, i) => {
         
             return (
@@ -110,7 +110,8 @@ class EncounterList extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        user: state.user,
+        encounter: state.encounter
     }
 }
 export default connect(mapStateToProps, { updateEncounter, updateUser })(EncounterList);

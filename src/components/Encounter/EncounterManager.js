@@ -9,7 +9,6 @@ import { Redirect } from 'react-router-dom';
 class EncounterManager extends Component {
 
     render() {
-        console.log(this.props.encounter);
         if (!this.props.encounter.id) {
            return <Redirect to='/'/>
         }

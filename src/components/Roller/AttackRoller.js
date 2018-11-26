@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { d20Rolls, dieRoller, splitDiceRollString } from '3dr';
+import styled from 'styled-components';
+import { size, media } from '../../utils/mediaQuery';
 
 export default class AttackRoller extends Component {
     constructor() {
@@ -65,35 +67,119 @@ export default class AttackRoller extends Component {
             const innerDisplay = [];
             next.forEach((roll, i) => {
                 let toHit = null, damage = null;
+                console.log('roll',roll);
                 if (roll.to_hit) {
-                    toHit = <p>To-Hit: ( { roll.to_hit[0][0] } ) + { roll.to_hit[1] } = { roll.to_hit[2][0] }</p>;
+                    toHit = 
+                        <Table>
+                            <p>To-Hit:</p>
+                            <p className='roll'>{ roll.to_hit[0][0] }</p>
+                            <p className='mod'>{ roll.to_hit[1] }</p>
+                            <p className='total'>{ roll.to_hit[2][0] }</p>
+                        </Table>;
                 }
                 if (roll.damage) {
-                    damage = <p>Damage: ( { roll.damage[0].join(', ') } ) + { roll.damage[1] } = { roll.damage[2] }</p>
+                    damage = 
+                        <Table>
+                            <p>Damage:</p>
+                            <p className='roll'>{ roll.damage[0].join(', ') }</p>
+                            <p className='mod'>{ roll.damage[1] }</p>
+                            <p className='total'>{ roll.damage[2] }</p>
+                        </Table>
                 }
             
                 /* TO-DO: STYLING */
                 innerDisplay.push(
-                    <div key={roll+i} className='roll'>
+                    <Roll key={roll+i} className='roll'>
                         <h3>{roll.name}</h3>
                         { toHit }
                         { damage }
-                        { !toHit ? roll.desc : null }
-                    </div>
+                        { !toHit ? <p className='desc'>{ roll.desc }</p> : null }
+                    </Roll>
                 );
             })
             rollDisplay.push(
-                <div key={key} className='attack-group'>
-                    <h2>{key}</h2>
+                <AttackGroup key={key}>
+                    
+                    <Table>
+                        <h1>{key}</h1>
+                        <p>Roll <D20 className="fas fa-dice-d20"/></p>
+                        <p>Mod ( + )</p>
+                        <p>Total</p>
+                    </Table>
+                    <Bar />
                     { innerDisplay }
-                </div>
+                </AttackGroup>
             );
         }
         
         return (
-            <div className='attack-rolls'>
+            <AttackRollsContainer className='attack-rolls'>
                 { rollDisplay }
-            </div>
+            </AttackRollsContainer>
         );
     }
 }
+
+
+const AttackRollsContainer = styled.div`
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: flex-start;
+    width:100%;
+`;
+const AttackGroup = styled.div`
+    width: 100%;
+`;
+
+const D20 = styled.i`
+    font-size: 20px;
+`;
+const Bar = styled.div`
+    width: 90%;
+    margin: 10px auto;
+    border-top: 5px solid transparent;
+    border-left: ${`${size.tablet * .8 *.9}px`} solid #EC2127; 
+    border-bottom: 5px solid transparent;
+
+    ${media.phone`
+        border-left: ${`${size.phone * .8 *.9}px`} solid #EC2127; 
+    `}
+`;
+const Roll = styled.div`
+    width: 90%;
+    margin: 10px auto;
+    border: 1px solid black;
+    
+    & h3 {
+        width: 90%;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: left;
+        margin: 15px auto;
+        color: #b52020;
+    }
+    & .desc {
+        padding: 0 20px;
+        max-height: 150px;
+        overflow-y: scroll;
+        margin: 15px 0;
+    }
+`;
+
+const Table = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 10px auto;
+    text-align: center;
+    & > * {
+        width: 100%;
+        min-width: fit-content;
+    }
+
+    & h1 {
+        font-size: 35px;
+    }
+`;
