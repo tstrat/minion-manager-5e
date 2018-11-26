@@ -144,11 +144,12 @@ export default class Encounter extends Component {
         
         const monsterList = monsters.map(monsterGroup => {
             const groupName = Object.keys(monsterGroup)[0];
-            return <Monster key={groupName} monsterGroup={{ name:groupName, list:monsterGroup[groupName] }} selectFn={this.select} />;
+            return <Monster key={groupName} monsterGroup={{ name:groupName, list:monsterGroup[groupName] }} selectFn={this.select} update={this.fetchEncounterMonsters} />;
         })
 
         return (
             <StyledEncounterContainer>
+                { this.state.selected.length ? <TrashCan className="fas fa-trash" onClick={this.deleteAll}/> : null }
                 {/* { addMonster ? <AddMonster encounterId={ this.props.id } updateMonsterList={ this.updateMonsterList }/> : null } */}
                 { monsterList }
                 <Link to='/bestiary'><AddButton src={addButton}/></Link>
@@ -189,6 +190,9 @@ const EncounterActions = styled.div`
     bottom: 20px;
 `;
 
+const TrashCan = styled.i`
+    align-self: flex-end;
+`;
 const AddButton = styled.img`
     max-height: 70px;
     position: sticky;

@@ -33,6 +33,7 @@ app.post('/api/encounters', loginCheck, managerController.createEncounter);
 app.get('/api/encounters/:id', managerController.getMonstersByEncounterId);
 app.patch('/api/monsters', managerController.updateMonster);
 app.delete('/api/monsters/:id', managerController.deleteMonster);
+app.delete('/api/encounters/:id', managerController.deleteEncounter);
 
 // Authentication Endpoints
 

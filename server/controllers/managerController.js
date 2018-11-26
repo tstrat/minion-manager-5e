@@ -17,7 +17,7 @@ module.exports = {
     getEncounterList : (req, res) => {
         const db = req.app.get('db');
 
-        db.get_all_encounters({ userId: req.session.user.id })
+        db.get_all_encounters({ userId: parseInt(req.session.user.id) })
         .then(encounterList => {
             res.status(200).json(encounterList);
         }).catch( error => {
@@ -25,18 +25,21 @@ module.exports = {
             res.status(500).json({ message: error });
         })
     },
-    createMonster : (req, res) => {
+    deleteEncounter: (req, res) => {
         const db = req.app.get('db');
 
-        const { monsterName, name, health, url, encounterId } = req.body;
-        const payload = {
-            monsterName,
-            name: name,
-            health,
-            url: url,
-            encounterId: parseInt(encounterId)
-        }
-        db.create_monster(payload)
+        db.remove_encounter({ id: req.params.id })
+        .then( removed => {
+            res.status(200).json(removed[0]);
+        })
+        .catch( error => {
+            console.error('Error removing encounters\n Error Message:', error);
+            res.status(500).json({ message: error });
+        });
+    },
+    createMonster : (req, res) => {
+        const db = req.app.get('db');
+        db.create_monster({...req.body})
         .then( createdMonsters => {
             res.status(200).json(createdMonsters[0]);
         })

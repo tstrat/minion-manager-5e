@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import StatBlock from '../StatBlock/StatBlock';
 import { connect } from 'react-redux';
-import { map } from 'rsvp';
+import { getMonsterStats } from '../../utils/utils';
+import './bestiary.css';
 
 class Bestiary extends Component {
     constructor(){
@@ -23,25 +24,32 @@ class Bestiary extends Component {
         })
     }
 
-    addMonster = () => {
+    addMonster = async () => {
         const { monsters, input } = this.state;
         const index = monsters.findIndex(m => m.name.toLowerCase() === input.toLowerCase());
-        console.log(index);
+        
         if ( index >= 0 ) {
             // ${monsterName}, ${name}, ${health}, ${url}, ${encounterId}
-            const monster = monsters[index];
+            const curr = monsters[index];
+            console.log(curr);
+            const monster = await getMonsterStats(curr.url);
+            console.log(monster);
             const payload = {
                 monsterName : monster.name,
                 name: this.randomName(monster.name),
-                health: monster.health,
-                url: monster.url,
+                health: monster.hp,
+                maxHealth: monster.hp,
+                armorClass: monster.ac,
+                url: curr.url,
                 encounterId : this.props.encounter.id
             }
+            console.log('Sending payload', payload);
             axios.post('/api/monsters', payload)
             .then( res => {
                 // console.log("added", res.data);
                 this.setState({ input: ''});
             })
+       
         }
     }
 
@@ -50,8 +58,10 @@ class Bestiary extends Component {
     }
 
     render() {
-
-        const monsterList = this.state.monsters.map((m,i) => {
+        const regex = new RegExp(this.state.input, 'i');
+        const viewList = this.state.monsters.filter(m => m.name.match(regex));
+       
+        const monsterList = viewList.map((m,i) => {
             if (this.state.selected === m.name){
                 return (
                     <div key={ m.name + i }>
@@ -74,15 +84,18 @@ class Bestiary extends Component {
         const encounterInput = this.props.encounter.id ? 
             (
                 <>
-                    <input value={this.state.input} onChange={e=>this.setState({input: e.target.value})}/>
-                    <button onClick={this.addMonster}>Add Monster</button>
+                    <button className="addMonster" onClick={this.addMonster}>Add Monster</button>
                 </>
             )
             : null;
         return (
             <div className='bestiary'>
-            { encounterInput }
-            { monsterList }
+                <img className="background" src='https://vignette.wikia.nocookie.net/finalfantasy/images/d/d0/Cleigne-Bestiary-Background-FFXV.png/revision/latest?cb=20180622160158' alt='monsters'/>
+                <div className="header">
+                    <input placeholder="Search Bestiary" className="search" value={this.state.input} onChange={e=>this.setState({input: e.target.value})}/>
+                    { encounterInput }
+                </div>
+                { monsterList }
             </div>
         );
     }

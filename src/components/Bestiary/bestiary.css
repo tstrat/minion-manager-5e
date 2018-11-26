@@ -1,0 +1,41 @@
+.bestiary {
+    width: 100%;
+    padding: 20px 20px;
+    text-align: center;
+}
+
+.bestiary .background {
+    position:fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: .4;
+    z-index: -1;
+}
+
+.bestiary h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.bestiary .search {
+    width: 50%;
+    height: 30px;
+    font-size: 22px;
+    margin: 20px;
+    box-shadow: 1px 1px 3px black;
+}
+
+.bestiary .addMonster {
+    width: 80px;
+    height: 40px;
+    background-color: #c9bebe;
+    box-shadow: 1px 1px 5px black;
+}
+
+.bestiary .header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}

@@ -8,7 +8,6 @@ const UPDATE_USER = 'UPDATE_USER';
 const LOGOUT = 'LOGOUT';
 
 export default function reducer(state = INITIAL_STATE, action) {
-    console.log(action);
     switch(action.type){
         case UPDATE_ENCOUNTER_ID:
             return { ...state, encounter: action.payload };

@@ -4,10 +4,49 @@
     align-items: center;
 }
 
+.statistics ul > * {
+    margin-left: 10px;
+}
 .statblock {
     margin: 20px;
+    text-align:left;
+    width: 80%;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 2px 2px 10px black;
+    padding: 20px;
 }
 
+.statblock div {
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+
+.statblock .bar {
+    height:0;
+    width: 0;
+    align-self: flex-start;
+    margin-top: 15px;
+    border-top: 5px solid transparent;
+    border-left: 300px solid #EC2127; 
+    border-bottom: 5px solid transparent;
+}
 .statblock > div {
     margin-bottom: 10px;
+}
+
+.statblock h1 {
+    font-size: 30px;
+}
+
+.statblock h2 {
+    font-size: 25px;
+}
+
+.statblock h3 {
+    font-size: 22px;
+}
+
+.statblock p {
+    margin-bottom: 15px;
 }

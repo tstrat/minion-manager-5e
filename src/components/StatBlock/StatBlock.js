@@ -40,7 +40,6 @@ export default class StatBlock extends Component {
         if (this.state.loading) {
             return <div>Loading...</div>
         }
-        console.log('Statblock', this.state);
         const { name, hp, ac, hitDice, stats, saves, details, skills, abilities } = this.state;
         const savingThrows = createStringList(saves);
 
@@ -65,6 +64,7 @@ export default class StatBlock extends Component {
             <div className="statblock">
                 <div>
                     <h1>{ name }</h1>
+                    <div className="bar"/>
                     <h3>{ details.size } { details.type }, { details.alignment }</h3>
                 </div>
                 <div>
@@ -127,13 +127,15 @@ export default class StatBlock extends Component {
                     { special }
                 </div>
                 <div className="Actions">
-                    <h1>Actions</h1>
+                    <h2>Actions</h2>
+                    <div className="bar"/>
                     { actionList }
                 </div>
                 { abilities.legendary_actions
                     ? 
                         <div>
                             <h1>Legendary Actions</h1>
+                            <div className="bar"/>
                             { legendaryActionList }
                         </div>
                     : null

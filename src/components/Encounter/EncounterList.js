@@ -4,7 +4,6 @@ import { updateEncounter, updateUser } from '../../ducks/reducer';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
 
 class EncounterList extends Component {
     constructor(props) {
@@ -78,9 +77,12 @@ class EncounterList extends Component {
         const display = this.state.encounters.map((encounter, i) => {
         
             return (
+                <FlexBox>
                 <Link key={encounter.id} to='/encounter' onClick={()=>this.props.updateEncounter(encounter)}>
                     <ListItem>{i+1}. {encounter.name}</ListItem>
                 </Link>
+                <DeleteButton className="fas fa-minus-circle" onClick={() => this.removeEncounter(encounter.id)}/>
+                </FlexBox>
             )
         });
         if (this.state.addEncounter) {
@@ -152,6 +154,7 @@ const Title = styled.h1`
     align-self: flex-start;
     margin: 20px 30px;
 `;
+
 const StyledUl = styled.ul`
     margin: 0 auto;
     display:flex;
@@ -188,6 +191,11 @@ const ListItem = styled.li`
     
 `;
 
+const DeleteButton = styled.i`
+    font-size: 50px;
+    color: #220222;
+
+`;
 const StyledButtonContainer = styled.div`
     display:flex;
     justify-content: space-between;
@@ -197,4 +205,12 @@ const StyledButton = styled.button`
     font-size: 20px;
     margin: 20px auto;
     background-color: #efefef;
+`;
+
+const FlexBox = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width: 100%;
+    margin: 0 auto;
 `;
