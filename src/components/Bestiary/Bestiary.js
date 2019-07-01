@@ -16,10 +16,10 @@ class Bestiary extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://www.dnd5eapi.co/api/monsters/')
+        axios.get('/api/monsters')
         .then( res => {
             this.setState({
-                monsters : res.data.results
+                monsters : res.data
             })
         })
     }
@@ -27,12 +27,12 @@ class Bestiary extends Component {
     addMonster = async () => {
         const { monsters, input } = this.state;
         const index = monsters.findIndex(m => m.name.toLowerCase() === input.toLowerCase());
-        
+
         if ( index >= 0 ) {
             // ${monsterName}, ${name}, ${health}, ${url}, ${encounterId}
             const curr = monsters[index];
             console.log(curr);
-            const monster = await getMonsterStats(curr.url);
+            const monster = await getMonsterStats(index);
             console.log(monster);
             const payload = {
                 monsterName : monster.name,
@@ -49,7 +49,7 @@ class Bestiary extends Component {
                 // console.log("added", res.data);
                 this.setState({ input: ''});
             })
-       
+
         }
     }
 
@@ -60,13 +60,13 @@ class Bestiary extends Component {
     render() {
         const regex = new RegExp(this.state.input, 'i');
         const viewList = this.state.monsters.filter(m => m.name.match(regex));
-       
+
         const monsterList = viewList.map((m,i) => {
             if (this.state.selected === m.name){
                 return (
                     <div key={ m.name + i } className="monster">
                         <h3 onClick={ () => this.setState({ selected : '' }) }>{ m.name }</h3>
-                        <StatBlock url={ m.url }/>
+                        <StatBlock index={ m.index }/>
                     </div>
                 )
             }
@@ -81,7 +81,7 @@ class Bestiary extends Component {
             }
         })
 
-        const encounterInput = this.props.encounter.id ? 
+        const encounterInput = this.props.encounter.id ?
             (
                 <>
                     <button className="addMonster" onClick={this.addMonster}>Add Monster</button>

@@ -27,17 +27,17 @@ export default class Attack extends Component {
 
     fetchStatBlocks = () => {
         const { selected } = this.props;
-        // console.log(selected);
+        console.log('%c selected:', 'font-size:24px', selected);
         const statBlocks = [];
         const count = {};
         const urls = []
         for (let i = 0; i < selected.length; i++ ){
-            
-            if (!selected[i].url) {
+            let id = +selected[i].url.split('/').reverse()[0]
+            if (!id) {
                 continue;
             }
-            if (!urls.includes(selected[i].url))  {  
-                urls.push(selected[i].url);
+            if (!urls.includes(id))  {
+                urls.push(id);
             }
             if (selected[i].monster_name in count) {
                 count[selected[i].monster_name].total += 1;
@@ -48,14 +48,14 @@ export default class Attack extends Component {
             }
         }
 
-        for (let url of urls) {
-            statBlocks.push(getMonsterStats(url));
+        for (let id of urls) {
+            statBlocks.push(getMonsterStats(id));
         }
         axios.all([...statBlocks])
         .then( res => {
             this.setState({ statBlocks: res, count });
         })
-        
+
     }
 
     updateActions = (count, key, action) => {
@@ -99,7 +99,7 @@ export default class Attack extends Component {
         const actions = statBlocks.map(stat => {
             const count = this.state.count[stat.name].remaining || this.state.count[stat.name].remaining === 0
              ? this.state.count[stat.name].remaining : this.state.count[stat.name].total;
-            
+
 
             const actionList = [];
             for (let action of stat.abilities.actions) {
@@ -110,28 +110,28 @@ export default class Attack extends Component {
                     <h1 className='monstertype'>{stat.name}</h1>
                     <h3><p>{count}</p> remaining...</h3>
                     <HorizontalBar />
-                    
+
                     <span>Attacks</span>
                     { actionList }
                 </StyledAttackActionsContainer>
             );
         })
-        const display = ( !rolling ) ? 
+        const display = ( !rolling ) ?
                 <>
                 {actions}
                 { Object.keys(assigned).length ? <RollButton onClick={() => this.setState({ rolling: true })}>Roll</RollButton> : null }
                 </>
-                : 
+                :
                 <AttackRoller actions={ assigned } />
 
         return (
             <Fade onClick={this.props.clearButtons}>
-                
+
                 <StyledAttackContainer onClick={(e) => e.stopPropagation()}>
                     <CloseButton onClick={this.props.clearButtons}><i className="fas fa-window-close" /></CloseButton>
                     { display }
                 </StyledAttackContainer>
-                
+
             </Fade>
         )
     }
@@ -170,7 +170,7 @@ const StyledAttackContainer = styled.div`
     & img {
         height: 100%;
     }
-    
+
 `;
 
 const CloseButton = styled.button`
@@ -207,9 +207,9 @@ const StyledAttackActionsContainer = styled.div`
 
     & .monstertype {
         font-size: 25px;
-        align-self: flex-start; 
+        align-self: flex-start;
         margin-top: 15px;
-        margin-left: 15px;       
+        margin-left: 15px;
     }
 
     & h3 {
@@ -228,13 +228,13 @@ const HorizontalBar = styled.div`
     height:0;
     width: 0;
     align-self: flex-start;
-    margin-left: 20px; 
+    margin-left: 20px;
     border-top: 5px solid transparent;
-    border-left: ${`${size.tablet * .8 *.9}px`} solid #EC2127; 
+    border-left: ${`${size.tablet * .8 *.9}px`} solid #EC2127;
     border-bottom: 5px solid transparent;
 
     ${media.phone`
-        border-left: ${`${size.phone * .8 *.9}px`} solid #EC2127; 
+        border-left: ${`${size.phone * .8 *.9}px`} solid #EC2127;
     `}
 `;
 

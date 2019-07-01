@@ -65,11 +65,11 @@ export const xpByCR = cr => {
  * A long axios call that grabs the specific stats for a monster and returns their information, grouped into
  * an easier to manage javascript object.  This is in utils because it will be used by the bestiary view and probably
  * the encounter view (where actions are important to use).
- * 
- * @param {*} url to dnd5eapi specific to a monster stat block 
+ *
+ * @param {*} url to dnd5eapi specific to a monster stat block
  */
-export const getMonsterStats = url => {
-    return axios.get(url)
+export const getMonsterStats = index => {
+    return axios.get(`/api/monsters/${index}`)
         .then( res => {
             const { strength, dexterity, constitution, intelligence, wisdom, charisma,
                     strength_save, dexterity_save, constitution_save, intelligence_save, wisdom_save, charisma_save,
@@ -77,40 +77,40 @@ export const getMonsterStats = url => {
                     alignment, challenge_rating, condition_immunities, damage_immunities, damage_resistances, damage_vulnerabilities,
                     senses, size, speed, type,
                     acrobatics, animal_handling, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleight_of_hand, stealth, survival } = res.data;
-            
+
             const skillsList = createStringList({
-                acrobatics, 
-                animal_handling, 
-                arcana, athletics, 
-                deception, history, 
-                insight, 
-                intimidation, 
-                investigation, 
-                medicine, 
-                nature, 
-                perception, 
-                performance, 
-                persuasion, 
-                religion, 
-                sleight_of_hand, 
-                stealth, 
-                survival 
+                acrobatics,
+                animal_handling,
+                arcana, athletics,
+                deception, history,
+                insight,
+                intimidation,
+                investigation,
+                medicine,
+                nature,
+                perception,
+                performance,
+                persuasion,
+                religion,
+                sleight_of_hand,
+                stealth,
+                survival
             });
-            
+
             return {
                 name,
-                stats: { 
-                    strength, 
-                    dexterity, 
-                    constitution, 
-                    intelligence, 
-                    wisdom, 
-                    charisma 
+                stats: {
+                    strength,
+                    dexterity,
+                    constitution,
+                    intelligence,
+                    wisdom,
+                    charisma
                 },
                 ac: armor_class,
                 hp: hit_points,
                 hitDice: hit_dice,
-                saves: { 
+                saves: {
                     STR: strength_save,
                     DEX: dexterity_save,
                     CON: constitution_save,
@@ -137,7 +137,7 @@ export const getMonsterStats = url => {
                 },
                 skills: skillsList,
             }
-                     
+
         }).catch( error => {
             return { message: error }
         });

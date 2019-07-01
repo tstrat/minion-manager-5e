@@ -4,6 +4,7 @@ const massive = require('massive');
 const session = require('express-session');
 const managerController = require('./controllers/managerController');
 const authController = require('./controllers/authController');
+const dnd5eApiController = require('./controllers/dnd5eapi/dnd5eApiController');
 require('dotenv').config();
 
 
@@ -35,6 +36,9 @@ app.patch('/api/monsters', managerController.updateMonster);
 app.delete('/api/monsters/:id', managerController.deleteMonster);
 app.delete('/api/encounters/:id', managerController.deleteEncounter);
 
+
+app.get('/api/monsters', dnd5eApiController.getAllMonsters);
+app.get('/api/monsters/:id', dnd5eApiController.getMonster);
 // Authentication Endpoints
 
 app.get('/auth/callback', authController.login);

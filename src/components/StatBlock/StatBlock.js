@@ -31,7 +31,7 @@ export default class StatBlock extends Component {
     }
 
     componentDidMount() {
-        getMonsterStats(this.props.url).then(res => {
+        getMonsterStats(this.props.index).then(res => {
             this.setState({ ...res, loading: false });
         })
     }
@@ -53,13 +53,19 @@ export default class StatBlock extends Component {
         const actionList = abilities.actions.map((action, i) => {
             return <p key={i}>{action.name}. {action.desc}</p>
         });
-        
+
         if (abilities.legendary_actions) {
             legendaryActionList = abilities.legendary_actions.map((action, i) => {
                 return <p key={i}>{action.name}. {action.desc}</p>
             });
         }
-
+        let speed = ''
+        if (details.speed) {
+            for (let k in details.speed) {
+                speed += ` ${details.speed[k]} ${k}.`
+            }
+        }
+        console.log(this.state);
         return (
             <div className="statblock">
                 <div>
@@ -70,9 +76,9 @@ export default class StatBlock extends Component {
                 <div>
                     <p>Armor Class { ac }</p>
                     <p>Hit Points { hp } { hitDice }</p>
-                    <p>Speed { details.speed }</p>
+                    <p>Speed { speed }</p>
                 </div>
-                
+
                 <div className="statistics">
                     <ul>
                         <li>
@@ -116,11 +122,11 @@ export default class StatBlock extends Component {
                     { details.damage_vulnerabilities ? <p>Damage Vulnerabilities { details.damage_vulnerabilities }</p> : null }
                     { details.senses ? <p>Senses { details.senses }</p> : null }
                     { details.language ? <p>Languages { details.language }</p> : null }
-                    { details.challengeRating 
-                        ? 
-                            <p>Challenge { details.challengeRating } ({ xpByCR(details.challengeRating) })</p> 
-                        : 
-                            null 
+                    { details.challengeRating
+                        ?
+                            <p>Challenge { details.challengeRating } ({ xpByCR(details.challengeRating) })</p>
+                        :
+                            null
                     }
                 </div>
                 <div className="special-abilities">
@@ -132,7 +138,7 @@ export default class StatBlock extends Component {
                     { actionList }
                 </div>
                 { abilities.legendary_actions
-                    ? 
+                    ?
                         <div>
                             <h1>Legendary Actions</h1>
                             <div className="bar"/>
